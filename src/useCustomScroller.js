@@ -4,20 +4,21 @@ import { useLayoutEffect, useRef, useState, useCallback } from 'react';
  * We use a negative right on the content to hide original OS scrollbars
  */
 const OS_SCROLLBAR_WIDTH = (() => {
-  const outer = typeof document !== 'undefined' ? document.createElement('div') : null;
-  const inner = typeof document !== 'undefined' ? document.createElement('div') : null;
-  outer.style.overflow = 'scroll';
-  outer.style.width = '100%';
-  inner.style.width = '100%';
-
   if (typeof document !== 'undefined') {
+    const outer = document.createElement('div');
+    const inner = document.createElement('div');
+    outer.style.overflow = 'scroll';
+    outer.style.width = '100%';
+    inner.style.width = '100%';
+
     document.body.appendChild(outer);
     outer.appendChild(inner);
     const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
     outer.removeChild(inner);
     document.body.removeChild(outer);
+
+    return scrollbarWidth;
   }
-  return scrollbarWidth;
 })();
 
 /**
